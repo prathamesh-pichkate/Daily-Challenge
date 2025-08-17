@@ -1,0 +1,66 @@
+1. Brute force Approach:
+  TC : O(n log n)
+  SC : O(log n)
+class Solution {
+    public int findDuplicate(int[] nums) {
+        Arrays.sort(nums);
+
+        for(int i = 0;i<nums.length-1;i++){
+            if(nums[i] == nums[i+1]){
+                return nums[i];
+            }
+        }
+        return -1;
+    }
+}
+
+2. Better Approach:
+   TC : O(n) + O(n) = O(n)
+   SC : O(n)
+
+    class Solution {
+    public int findDuplicate(int[] nums) {
+        Map<Integer,Integer> hm = new HashMap<>();
+
+        for(int i=0;i<nums.length;i++){
+            hm.put(nums[i],hm.getOrDefault(nums[i],0)+1);
+        }
+
+        for(int n: hm.keySet()){
+            if(hm.get(n) > 1){
+                return n;
+            }
+        }
+        return -1;
+    }
+}
+
+3. Optimal Approach:
+  TC : O(n)
+  SC : O(1)
+class Solution {
+    public int findDuplicate(int[] nums) {
+        int slow = nums[0];
+        int fast = nums[0];
+
+        while (true) {
+            slow = nums[slow];          
+            fast = nums[nums[fast]];     
+            if (slow == fast) {
+                break; 
+            }
+        }
+
+        
+        slow = nums[0];
+        while (slow != fast) {
+            slow = nums[slow];
+            fast = nums[fast];
+        }
+
+        return slow; 
+    }
+}
+
+
+
