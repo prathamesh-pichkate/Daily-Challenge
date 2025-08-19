@@ -1,0 +1,23 @@
+TC : O(n) 
+SC : O(1)
+
+class Solution {
+    static ArrayList<Integer> leaders(int arr[]) {
+        // code here
+        ArrayList<Integer> result = new ArrayList<>();
+        
+        int x = arr.length;
+        int rightMax = arr[x-1];
+        result.add(rightMax);
+        
+        for(int i = x-2;i >= 0;i--){
+            if(arr[i] >= rightMax){
+                rightMax = arr[i];
+                result.add(rightMax);
+            }
+        }
+        
+        Collections.reverse(result);
+        return result;
+    }
+}
