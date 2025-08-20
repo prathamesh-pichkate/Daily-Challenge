@@ -1,0 +1,41 @@
+import java.util.*;
+
+public class ZeroSumSubarrays {
+    public static List<int[]> findSubarrays(int[] arr) {
+        // List to store results (start, end indices)
+        List<int[]> result = new ArrayList<>();
+        
+        // Map to store prefixSum -> list of indices
+        Map<Integer, List<Integer>> map = new HashMap<>();
+        
+        int prefixSum = 0;
+        // Initialize with prefixSum = 0 at index -1
+        map.put(0, new ArrayList<>(Arrays.asList(-1)));
+        
+        for (int i = 0; i < arr.length; i++) {
+            prefixSum += arr[i];
+            
+            // If prefixSum seen before, subarray(s) exist
+            if (map.containsKey(prefixSum)) {
+                for (int startIndex : map.get(prefixSum)) {
+                    result.add(new int[]{startIndex + 1, i});
+                }
+            }
+            
+            // Store this prefixSum with current index
+            map.computeIfAbsent(prefixSum, k -> new ArrayList<>()).add(i);
+        }
+        
+        return result;
+    }
+    
+    public static void main(String[] args) {
+        int[] arr = {3, 4, -7, 3, 1, 3, -4, -2, -2};
+        List<int[]> subarrays = findSubarrays(arr);
+        
+        System.out.println("Subarrays with sum 0:");
+        for (int[] pair : subarrays) {
+            System.out.println("Start: " + pair[0] + ", End: " + pair[1]);
+        }
+    }
+}
